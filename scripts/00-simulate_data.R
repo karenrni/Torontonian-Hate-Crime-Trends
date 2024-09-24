@@ -13,9 +13,7 @@ library(tidyverse)
 set.seed(42)
 
 # Set number of Records
-number_of_records <- 100
-
-# Simulating data
+number_of_records <- 300
 
 # Simulating data
 simulated_data <- tibble(

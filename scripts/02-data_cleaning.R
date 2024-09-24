@@ -24,5 +24,9 @@ cleaned_data <- data %>%
     TRUE ~ "Other Offenses"
   ))
 
+# Remove rows without racial bias 
+cleaned_data <- cleaned_data %>%
+  filter(RACE_BIAS != "None")
+
 #### Save data ####
 write_csv(cleaned_data, "data/analysis_data/analysis_data.csv")
