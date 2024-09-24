@@ -1,61 +1,170 @@
-To simulate dates in R using `tidyverse`, you can use the `seq.Date()` function or the `lubridate` package, which works well with `tidyverse` for date manipulation. Here's how you can generate a sequence of dates and integrate it with a `tibble`:
+Sure! Here’s a simplified version with fewer variables for simulating hate crime data:
 
-### Example 1: Generate a Sequence of Dates
-```r
+Simplified Simulation
+You can focus on just a few key variables: year, race bias, and primary offence. Here’s how you can do it:
+
+r
+Copy code
 library(tidyverse)
 
-# Generate a sequence of daily dates from a start date
-start_date <- as.Date("2023-01-01")
-end_date <- as.Date("2023-12-31")
+# Set parameters
+set.seed(42)  # For reproducibility
+number_of_records <- 100  # Number of simulated records
 
-date_sequence <- seq.Date(from = start_date, to = end_date, by = "day")
+# Define potential values for categorical variables
+race_bias_values <- c("Black", "Asian", "White", "Hispanic")
+primary_offence_values <- c("Assault", "Vandalism", "Threat")
 
-# Create a tibble with the date sequence
-tibble_dates <- tibble(dates = date_sequence)
-
-print(tibble_dates)
-```
-
-### Example 2: Random Dates within a Range
-You can also simulate random dates within a given range:
-
-```r
-library(tidyverse)
-
-# Define the start and end date
-start_date <- as.Date("2023-01-01")
-end_date <- as.Date("2023-12-31")
-
-# Set the number of random dates you want to generate
-n <- 10
-
-# Generate random dates
-random_dates <- tibble(
-  dates = as.Date(runif(n, min = as.numeric(start_date), max = as.numeric(end_date)), origin = "1970-01-01")
+# Simulate data
+simulated_data <- tibble(
+  OCCURRENCE_YEAR = sample(2018:2024, number_of_records, replace = TRUE),  # Random years
+  RACE_BIAS = sample(race_bias_values, number_of_records, replace = TRUE),  # Random race bias categories
+  PRIMARY_OFFENCE = sample(primary_offence_values, number_of_records, replace = TRUE)  # Random offence types
 )
 
-print(random_dates)
-```
+# Save simulated data
+write_csv(simulated_data, "data/raw_data/simulated_hate_crimes_simple.csv")
+Key Variables
+OCCURRENCE_YEAR: Randomly sampled from 2018 to 2024.
+RACE_BIAS: Randomly selected from a simplified list of race categories.
+PRIMARY_OFFENCE: Randomly selected from a few common offence types.
+Explanation
+Fewer Variables: This version focuses on three key variables, making it easier to analyze patterns related to race bias and types of offences.
+Random Sampling: Each variable is generated using sample(), ensuring you get a variety of records.
+This approach should be more straightforward while still allowing you to explore the patterns related to race in hate crimes.
 
-### Example 3: Using `lubridate` to Manipulate Dates
-The `lubridate` package offers additional flexibility, such as generating dates from different time units:
+Sure! Here are tailored tests based on your dataset, focusing on the relevant variables:
 
-```r
-library(tidyverse)
-library(lubridate)
+1. Test for Negative Numbers
+Check for negative values in the number_of_offenses column (or whichever relevant numeric column you have).
 
-# Create a tibble with simulated years, months, and days
-tibble_simulated <- tibble(
-  year = sample(2020:2023, 10, replace = TRUE),
-  month = sample(1:12, 10, replace = TRUE),
-  day = sample(1:28, 10, replace = TRUE)
-)
+r
+Copy code
+# Test for negative numbers in the number of offenses
+min(data$number_of_offenses, na.rm = TRUE) < 0
+2. Test for NA Values
+Check for NA values in the RACE_BIAS, LOCATION_TYPE, and OFFENSE_GROUP columns.
 
-# Combine to form a date
-tibble_simulated <- tibble_simulated %>%
-  mutate(date = make_date(year, month, day))
+r
+Copy code
+# Test for NAs in specific columns
+any(is.na(data$RACE_BIAS)) || any(is.na(data$LOCATION_TYPE)) || any(is.na(data$OFFENSE_GROUP))
+3. Test for Duplicate Rows
+Check for any duplicate records in the dataset.
 
-print(tibble_simulated)
-```
+r
+Copy code
+# Test for duplicate rows
+any(duplicated(data))
+4. Test for Unique Values in Categorical Columns
+Check the number of unique values in the RACE_BIAS and OFFENSE_GROUP columns.
 
-These methods give you flexibility depending on whether you want a regular sequence of dates or randomly distributed dates within a range.
+r
+Copy code
+# Test for unique values in categorical columns
+length(unique(data$RACE_BIAS))  # For race bias
+length(unique(data$OFFENSE_GROUP))  # For offense groups
+5. Test for Value Range
+Check if any values in a numeric column (e.g., number_of_offenses) fall outside of an expected range (assuming offenses should be non-negative).
+
+r
+Copy code
+# Test for value range in number of offenses
+all(data$number_of_offenses >= 0, na.rm = TRUE)
+6. Test for Expected Columns
+Check if all expected columns are present in the dataset.
+
+r
+Copy code
+# Test for expected column names
+expected_columns <- c("OCCURRENCE_YEAR", "RACE_BIAS", "LOCATION_TYPE", "OFFENSE_GROUP", "number_of_offenses")  # Adjust as necessary
+all(expected_columns %in% names(data))
+7. Test for Specific Value Presence in Categorical Columns
+Check if specific categories are present in the RACE_BIAS column (like "Black", "White", etc.).
+
+r
+Copy code
+# Test for presence of specific categories in RACE_BIAS
+any(data$RACE_BIAS %in% c("Black", "White", "Latino"))  # Adjust categories as needed
+8. Test for Consistency of Categorical Values
+Check for any typos or unexpected values in the LOCATION_TYPE column.
+
+r
+Copy code
+# Test for unique values in LOCATION_TYPE for consistency
+unique(data$LOCATION_TYPE)  # Review the output for consistency
+9. Test for Outliers in Numeric Columns
+You can check for outliers in the number_of_offenses column using the IQR method.
+
+r
+Copy code
+# Test for outliers in number of offenses
+Q1 <- quantile(data$number_of_offenses, 0.25, na.rm = TRUE)
+Q3 <- quantile(data$number_of_offenses, 0.75, na.rm = TRUE)
+IQR <- Q3 - Q1
+outliers <- data$number_of_offenses < (Q1 - 1.5 * IQR) | data$number_of_offenses > (Q3 + 1.5 * IQR)
+any(outliers)
+Using These Tests
+You can run these tests in your R environment to ensure your data is clean and ready for analysis. Adjust the column names as needed based on your specific dataset.
+
+Step 1: Group the Offense Types
+Based on the offenses you provided, here are some potential groupings:
+
+Assault-related Offenses:
+
+Assault
+Assault With a Weapon
+Assault Causing Bodily Harm
+Aggravated Assault
+Assault Peace Officer
+Sexual Assault
+Murder
+Mischief and Property Damage:
+
+Mischief Under $5000
+Mischief Interfere With Property
+Mischief To Religious Property, Educational Institutions, Etc.
+Mischief Over $5000
+Mischief To Data
+Arson
+Threats and Harassment:
+
+Uttering Threats - Bodily Harm
+Uttering Threats - Property
+Criminal Harassment
+Harassing Communications
+Hate-related Offenses:
+
+Wilful Promotion of Hatred
+Public Incitement of Hatred
+Advocating Genocide
+Disturbing Religious Worship Or Certain Meetings
+Other Offenses:
+
+Theft
+Indecent Communications
+Robbery
+Causing a Disturbance
+Firearms Related Offence
+Other Criminal Code Offence Not Listed
+Dangerous Operation Motor Vehicle
+Fail To Comply Probation
+Step 2: Mutate Offenses into Groups
+Now that we have created groups, you can use the mutate() function in your cleaning step to categorize the offenses. This can be done with a case_when statement.
+
+r
+Copy code
+# Group offenses in mutate
+data <- data %>%
+  mutate(OFFENSE_GROUP = case_when(
+    PRIMARY_OFFENCE %in% c("Assault", "Assault With a Weapon", "Assault Causing Bodily Harm", 
+                           "Aggravated Assault", "Assault Peace Officer", "Sexual Assault", "Murder") ~ "Assault-related Offenses",
+    PRIMARY_OFFENCE %in% c("Mischief Under $5000", "Mischief Interfere With Property", "Mischief To Religious Property, Educational Institutions, Etc.",
+                           "Mischief Over $5000", "Mischief To Data", "Arson") ~ "Mischief and Property Damage",
+    PRIMARY_OFFENCE %in% c("Uttering Threats - Bodily Harm", "Uttering Threats - Property", "Criminal Harassment", "Harassing Communications") ~ "Threats and Harassment",
+    PRIMARY_OFFENCE %in% c("Wilful Promotion of Hatred", "Public Incitement of Hatred", "Advocating Genocide", "Disturbing Religious Worship Or Certain Meetings") ~ "Hate-related Offenses",
+    TRUE ~ "Other Offenses"
+  ))
+Key Points:
+The offenses are now grouped into broader categories.
+These groups are assigned in the mutation step using case_when().
