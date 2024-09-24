@@ -1,7 +1,7 @@
 #### Preamble ####
 # Purpose: Simulates data
 # Author: Karen Riani
-# Date: 19 September 2024
+# Date: 22 September 2024
 # Contact: karen.riani@mail.utoronto.ca
 # Pre-requisites: None
 # Any other information needed? None
@@ -9,30 +9,19 @@
 #### Workspace setup ####
 library(tidyverse)
 
-
 #### Simulate data ####
-set.seed(304)
+set.seed(42)
 
-# Define the start and end date
-start_date <- as.Date("2018-01-01")
-end_date <- as.Date("2023-12-31")
+# Set number of Records
+number_of_records <- 100
 
-# Set the number of random dates you want to generate
-number_of_dates <- 100
-
-data <-
-  tibble(
-    dates = as.Date(
-      runif(
-        n = number_of_dates,
-        min = as.numeric(start_date),
-        max = as.numeric(end_date)
-      ),
-      origin = "1970-01-01"
-    ),
-    number_of_marriage = rpois(n = number_of_dates, lambda = 15)
-  )
-
+# Simulating data
+simulated_data <- tibble(
+  occurrence_year = sample(2018:2024, number_of_records, replace = TRUE),
+  race_bias = sample(c("East Asian mixed", "South Asian mixed", "Other"), number_of_records, replace = TRUE),
+  primary_offence = sample(c("Assault", "Mischief", "Hate Speech", "Other"), number_of_records, replace = TRUE),
+  location_type = sample(unique_location_type, number_of_records, replace = TRUE)
+)
 
 #### Write_csv
 write_csv(data, file = "data/raw_data/simulated.csv")
