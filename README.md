@@ -1,8 +1,7 @@
 #Overview
-An analysis on recent hate crimes in Toronto via https://open.toronto.ca/dataset/hate-crimes-open-data/ from 2018 until most recently, August 7th, 2024. 
+An analysis on recent hate crimes in Toronto via https://open.toronto.ca/dataset/hate-crimes-open-data/ from 2018 until most recently, 2024. 
 
 #File Structure
-
 
 The repo is structured as:
 
@@ -13,10 +12,8 @@ The repo is structured as:
 -   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
 -   `scripts` contains the R scripts used to simulate, download and clean data.
 
-
-
 #Statement on LLM usage
-Aspects of the code were written with the help of ____. It is available in other/llms/usage.txt.
+Aspects of the code were written with the help of ChatGpt. It is available in other/llms/usage.txt.
 
 
 ### Go/No-Go Checks:
