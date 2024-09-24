@@ -1,7 +1,7 @@
 # Overview
 An analysis on recent hate crimes in Toronto via https://open.toronto.ca/dataset/hate-crimes-open-data/ from 2018 until most recently, 2024. 
 
-#File Structure
+# File Structure
 
 The repo is structured as:
 
