@@ -1,12 +1,12 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Torontonian Hate Crime Trends (temp)"
+subtitle: "An Analysis of Race Bias in Hate Crime from 2018 to 2024"
 author: 
-  - Rohan Alexander
-thanks: "Code and data are available at: LINK."
+  - Karen Riani
+thanks: "Code and data are available at: https://github.com/karenrni/Torontonian-Hate-Crime-Trends"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "The abstract answers: 1) what was done, 2) what was found, and 3) why this matters (all at a high level). Likely four sentences. Abstract must make clear what we learn about the world because of this paper."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -24,65 +24,144 @@ data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
 ```
 
 
+# Table of Contents
+1. [Introduction](#introduction)  
+2. [Data](#data)  
+   2.1. [Raw Data](#raw-data)  
+   2.2. [Cleaned Data](#cleaned-data)  
+   2.3. [Basic Summary Statistics of the Data](#basic-summary-statistics-of-the-data)  
+   2.4. [Discussion of Data Selection](#discussion-of-data-selection)  
+3. [Results](#results)  
+   3.1. 
+   3.2.
+   3.3. 
+4. [Discussion](#discussion)  
+5. [Limitations and Next Steps](#limitations-and-next-steps)  
+6. [References](#references)  
+
 # Introduction
 
-You can and should cross-reference sections and sub-sections. We use @talia, @opendatatorotno, and @rohan.
+In recent years, there has been a noticeable increase in hate crimes targeting individuals of East and South Asian descent, particularly in diverse urban areas such as Toronto. Thes crimes have garnered significant attention amid the global rise of anti-Asian sentiment, not only in physical attacks but also in the rise of online cyberbullying. The initial spike in hate incidents was observed during the COVID-19 pandemic, primarily affecting East Asian and Chinese communities. In the years that followed, changes in immigration policies, especially those impacting international students, have led to heightened animosity towards South Asian individuals. This ongoing trend shows patterns of racial bias that highlights the need to understand the dynamics of hate crimes, not only to promote public safety but also to encourage greater awareness and solidarity within the community.
 
-The remainder of this paper is structured as follows. @sec-mydatasection
+This paper aims to analyze hate crimes targeting Asian populations in Toronto from 2018 to 2024, focusing specifically on the trends associated with various racial identities, including East and South Asian individuals. 
+
+To address this gap, the study employs a 
+
+The findings reveal significant trends in the prevalence of hate crimes against Asian individuals, with notable increases during key periods influenced by societal events, such as the COVID-19 pandemic and changing immigration policies. 
+
+Understanding the patterns of hate crimes against Asian communities is vital for informing policy interventions and community support initiatives. 
+
+The structure of this paper is as follows: Section 2 presents the data sources and methodology, followed by Section 3, which discusses the results and their implications. Section 4 concludes with a discussion on the limitations of the study and suggestions for future research.
 
 
 
 # Data {#sec-mydatasection}
 
-Some of our data is of penguins (@fig-marriage), from @palmerpenguins.
+A sense of the dataset should be communicated to the reader. The broader context of the dataset should be discussed. All variables should be thoroughly examined and explained. Explain if there were similar datasets that could have been used and why they were not. If variables were constructed then this should be mentioned, and high-level cleaning aspects of note should be mentioned, but this section should focus on the destination, not the journey. It is important to understand what the variables look like by including graphs, and possibly tables, of all observations, along with discussion of those graphs and the other features of these data. Summary statistics should also be included, and well as any relationships between the variables. If this becomes too detailed, then appendices could be used. Basically, for every variable in your dataset that is of interest to your paper there needs to be graphs and explanation and maybe tables.
+A thorough discussion of measurement, relating to the dataset, is provided in the data section. Please ensure that you explain how we went from some phenomena in the world that happened to an entry in the dataset that you are interested in.
+
+
+Seen via (@fig-Asian-Bias-Fig).
+
 
 ```{r}
-#| label: fig-marriage
-#| fig-cap: Bills of penguins
+#| label: fig-Asian-Bias-Fig
+#| fig-cap: Asian Biased Hate Crimes in Toronto
 #| echo: false
 
-data |> 
-  ggplot(aes(x = date, y = marriage_licenses)) +
-  geom_point()
+# To filter for Asian races
+asian_races <- c("East/Southeast Asian", 
+                 "South Asian", 
+                 "Black, East/Southeast Asian", 
+                 "Black, South Asian", 
+                 "East/Southeast Asian, South Asian, Black", 
+                 "White, East/Southeast Asian",
+                 "Indigenous, East/Southeast Asian")
+
+# Filter for Asian-related data
+asian_related_data <- data %>%
+  filter(RACE_BIAS %in% asian_races)
+
+# Aggregate data by year and race bias
+aggregated_data <- asian_related_data %>%
+  group_by(OCCURRENCE_YEAR, RACE_BIAS) %>%
+  summarise(incident_count = n(), .groups = 'drop')
+
+# Create a plot
+ggplot(aggregated_data, aes(x = OCCURRENCE_YEAR, y = incident_count, fill = RACE_BIAS)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Hate Crimes Involving Asian Races in Toronto (2018-2024)",
+       x = "Year",
+       y = "Number of Incidents",
+       fill = "Race Bias") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 
 ```
 
-Talk more about it.
+```{r}
+#| label: fig-Race-Bias-Fig
+#| fig-cap: Race Biased Hate Crimes in Toronto
+#| echo: false
 
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
+hate_crime_counts <- data %>%
+  group_by(OCCURRENCE_YEAR, RACE_BIAS) %>%
+  summarise(count = n(), .groups = 'drop')
+
+# Plotting
+ggplot(hate_crime_counts, aes(x = OCCURRENCE_YEAR, y = count, fill = RACE_BIAS)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Hate Crimes in Toronto (2018-2024)",
+       subtitle = "Count of Hate Crimes by Race Bias",
+       x = "Year",
+       y = "Number of Hate Crimes") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+### Raw Data
+source, structure,
+
+### Cleaned Data
+recategorization of variables.
+
+### Basic Summary Statistics of the Data
 
 
+### Discussion of Data Selection
+Discuss the rationale behind the selection of the data used for analysis and any criteria applied.
 
+## Results
 
 
 # Discussion
 
 ## First discussion point {#sec-first-point}
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
-
 ## Second discussion point
 
 ## Third discussion point
 
-## Weaknesses and next steps
+# Limitations and Next Steps
 
-Weaknesses and next steps should also be included.
-
-\newpage
-
-\appendix
-
-# Appendix {-}
-
-
-# Additional data details
-
-
+- accuracy and reliability of reports
+- dataset includes only all verified Hate Crime occurrences investigated by the Hate Crime Unit by 
+- only those confirmed and reported (date since 2018) 
+- does not include occurrences that have been deemed unfounded or classified as hate incidents
+- includes interaction between multi-biased hate crimes, where motivation lacks clarity 
+  - i.e. Age, Mental or Physical Disability, Race, Ethnicity, Language, Religion, Sexual Orientation, Gender and Other Similar Factor
+- should contine to analyse with multi level bias crimes in mind
+- data is provided at the offence and/or occurrence level-- one occurrence may have multi-bias categories associated to the victim used to categorize the hate crime
+- may overlook qualitative aspects of hate crimes, such as the socio-cultural context of incidents
 
 \newpage
 
 
 # References
+
+Gelfand, S. (2022). opendatatoronto: Access the City of Toronto Open Data Portal (R package version 0.1.5). Retrieved from https://CRAN.R-project.org/package=opendatatoronto
+
+R Core Team. (2023). R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from https://www.R-project.org/
 
 
