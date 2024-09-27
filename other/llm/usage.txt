@@ -232,3 +232,24 @@ Result:
 This plot will show you the number of hate crime incidents for each year categorized by the different Asian-related racial biases, providing a clear visual representation of the data you are interested in.
 
 Let me know if you have any further adjustments or questions!
+You can rename OCCURRENCE_YEAR directly within the kable() output using the rename() function from dplyr. 
+
+R Code:
+r
+Copy code
+# Generate the summary for Asian bias data, grouped by year
+summary <- asian_data %>%
+  group_by(OCCURRENCE_YEAR) %>%
+  summarise(
+    `Incident Count` = n(),
+    `Race Biases` = n_distinct(RACE_BIAS),
+    `Location Types` = n_distinct(LOCATION_TYPE),
+    `Offence Groups` = n_distinct(OFFENCE_GROUP)
+  ) %>%
+  rename(`Year` = OCCURRENCE_YEAR)  # Rename OCCURRENCE_YEAR to Year
+
+# Display the summary as a table using kable
+kable(summary, caption = "Detailed Summary of Asian Biased Hate Crimes in Toronto by Year")
+Explanation:
+rename(): Renames OCCURRENCE_YEAR to Year directly within the summarised data without needing mutate().
+This will give you the cleaner column name directly in your summary table.
