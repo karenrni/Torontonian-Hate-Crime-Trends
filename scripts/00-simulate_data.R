@@ -15,7 +15,7 @@ set.seed(42)
 # Set number of Records
 number_of_records <- 300
 
-# Simulating data
+# Simulating data with desired variables
 simulated_data <- tibble(
   OCCURRENCE_YEAR = sample(2018:2024, number_of_records, replace = TRUE),
   RACE_BIAS = sample(cleaned_data$RACE_BIAS, number_of_records, replace = TRUE),
