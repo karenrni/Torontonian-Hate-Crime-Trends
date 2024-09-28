@@ -38,7 +38,7 @@ The 2020 policy changes allowing international students to study online while pr
 
 Despite these policy responses, Asian communities continue to face systemic discrimination. This paper examines hate crimes against Asian populations in Toronto from 2018 to 2023, with a focus on how socio-political developments, like the pandemic and policy shifts, have shaped these trends. While acknowledging broader racial disparities affecting Black communities, this paper narrows in on anti-Asian bias, aiming to inform more targeted interventions and support strategies for affected groups.
 
-The following structure of this paper is as follows: Section @sec-mydatasection presents the data sources and methodology, followed by Section 3, which discusses the results and their implications. Section 4 concludes with a discussion of the limitations of the study and suggestions for future research.
+The following structure of this paper is as follows:  @sec-mydatasection presents the data sources and methodology, then  @sec-myresults followed by  @sec-mydisc, which discusses the results and their implications.  @sec-mylimits concludes with a discussion of the limitations of the study and suggestions for future research.
 
 # Data {#sec-mydatasection}
 
@@ -50,9 +50,9 @@ Hate crime data provided by the City of Toronto’s Hate Crime Unit includes any
 
 The set includes 1350 hate crimes from January 2018 to most recently, December 2023. It is annually refreshed, with the latest occurring on September 9th, 2024. As for quality, the data has an overall score of 96% grade of gold, and above 97% completeness, usability and freshness. The initial set of data included all races and mixes, with the column “Other race not mentioned” renamed to “Unknown” and all crimes not mainly associated with race bias removed– any row containing “None” under RACE_BIAS. 
 
-The columns included in the analysis are Primary Offences (Regrouped), Race Bias and Occurance Year. Due to the analysis’ focus on Asian Bias hate crimes, races of only East, Southeast and South Asian descent were included. Furthermore, primary offences were regrouped into more general overarching categories including, Assault-Related, Threats and Harassment, Mischief & Property Damage, Hate-Related and Others. Only the occurrence year was included as opposed to full dates, and reported dates were used to focus on high-level trends. Additionally, the dataset did not contain information on other socio-economic factors related to location, such as mean income levels and ethnic demographics, thus locations were excluded. Furthermore, location type was recategorized into more general categories including public, private, government, casual and other places. 
+The columns included in the analysis are Primary Offences (Regrouped), Race Bias and Occurence Year. Due to the analysis’ focus on Asian Bias hate crimes, races of only East, Southeast and South Asian descent were included. Furthermore, primary offences were regrouped into more general overarching categories including, Assault-Related, Threats and Harassment, Mischief & Property Damage, Hate-Related and Others. Only the occurrence year was included as opposed to full dates, and reported dates were used to focus on high-level trends. Additionally, the dataset did not contain information on other socio-economic factors related to location, such as mean income levels and ethnic demographics, thus locations were excluded. Furthermore, location type was recategorized into more general categories including public, private, government, casual and other places. 
 
-# Results
+# Results {#sec-myresults}
 
 ## Overview of Hate Crimes by Race
 We are primarily interested in hate crimes targeting Asian races, as this aligns with our focus on anti-Asian sentiment. However, it is also important to examine hate crimes across all racial categories to provide a comprehensive understanding of the trends. In @fig-Race-Bias-Fig, the graph hows a consistent increase in hate crimes targeting the Black community. Notably, hate crimes against Black individuals have been significantly higher than those targeting other racial groups throughout the observed period.
@@ -253,7 +253,7 @@ ggplot(asian_location_data, aes(x = OCCURRENCE_YEAR, y = incident_count, fill = 
 
 ```
 
-# Discussion 
+# Discussion {#sec-mydisc}
 
 Based on the above figures, there is evidence that the surge in hate crimes against East/Southeast and South Asians during 2021 correlates strongly with the social and political context surrounding the COVID-19 pandemic. Specifically a spike of over 1000% in hate crimes motivated by anti-East/Southeast Asian sentiment in @tbl-East-Asn-Summary. As the virus's origins were linked to Asia, widespread misinformation and xenophobia fueled anti-Asian sentiment. The sharp rise in hate crimes during this period is indicative of a broader global trend of increased racial targeting and discrimination, but concentrated within denser, diverse urban populations. While 2022 and 2023 saw a reduction in incidents, the numbers remain higher than pre-pandemic levels, suggesting that the effects of this wave of racism may have long-term impacts. Notably in @fig-Asian-Offence-Types and @fig-Asian-Location-Types, public settings such as businesses and streets became hotspots for these crimes, with assaults making up a significant portion of the incidents. In 2021, public assaults against Asians peaked and remained higher than pre-pandemic levels even into 2022 and 2023. While there was a reduction in incidents in these later years, the overall numbers still surpass those observed before the pandemic, suggesting long-lasting impacts of this wave of racism.
 
@@ -264,7 +264,7 @@ Meanwhile, the consistent levels of anti-Black hate crimes highlight ongoing sys
 Both the rise and persistence of these hate crimes underscore the importance of targeted policy responses. While public health measures and immigration policies were necessary during the pandemic, they were insufficient in addressing the racial tensions that surfaced. There is a clear need for long-term strategies aimed at combating racial bias and xenophobia, especially as it pertains to both East/Southeast and South Asian communities in Canada.
 
 
-# Limitations and Next Steps
+# Limitations and Next Steps {#sec-mylimits}
 
 There are several limitations to this analysis that should be considered when interpreting the results. The accuracy and reliability of reports may be affected by underreporting or misclassification, as the dataset includes only reported and verified hate crimes by the Hate crime Unit. Many incidents may go unreported or are excluded occurrences classified as unfounded or those identified as hate incidents. As a result, the data may not fully reflect the actual or full range of hate crimes occurring in the GTA community. The limited focus may omit significant portions of incidents not classified as hate crimes which still reflect underlying societal tensions.
 
