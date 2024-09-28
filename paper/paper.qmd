@@ -1,12 +1,12 @@
 ---
-title: "Torontonian Hate Crime Trends (temp)"
-subtitle: "An Analysis of Race Bias in Hate Crime from 2018 to 2023"
+title: "Asian Biased Hate Crime Trends in Toronto"
+subtitle: "An Analysis of the increased Asian Race Bias in Hate Crimes from 2018 to 2023"
 author: 
   - Karen Riani
 thanks: "Code and data are available at: https://github.com/karenrni/Torontonian-Hate-Crime-Trends"
 date: today
 date-format: long
-abstract: "The abstract answers: 1) what was done, 2) what was found, and 3) why this matters (all at a high level). Likely four sentences. Abstract must make clear what we learn about the world because of this paper."
+abstract: "In this study, we analyzed hate crime trends in Toronto from 2018 to 2023, focusing on racial bias against East, Southeast, and South Asian communities. Most incidents occurred in public settings, such as businesses or on the street, with offences primarily involving assault, threats, or mischief. Results aligned with major global events and found that hate crimes against East/Southeast Asians surged during the COVID-19 pandemic, while incidents targeting South Asian communities steadily increased beginning from COVID-19. These findings highlight the role of public spaces in hate crime incidents and emphasize the need for targeted interventions to address both short-term spikes and persistent racial bias in Toronto."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -30,25 +30,23 @@ data <- read_csv(here::here("data/analysis_data/analysis_data.csv"))
 
 In recent years, there has been a noticeable increase in hate crimes targeting individuals of East and South Asian descent, particularly in diverse urban areas such as Toronto. These crimes have garnered significant attention amid the global rise of anti-Asian sentiment, not only in physical attacks but also in the rise of online cyberbullying. The initial spike in hate incidents was observed during the COVID-19 pandemic, primarily affecting East Asian and Chinese communities. Furthermore, changes in immigration policies, especially those impacting international students, have led to heightened animosity towards South Asian individuals. This ongoing trend shows patterns of racial bias that highlight the need to understand the dynamics of hate crimes, not only to promote public safety but also to encourage greater awareness and solidarity within the community.
 
-Amidst the rise in Asian hate in the month of March 2020, the Canadian government began more actively working with Asian communities to handle increased anti-Asian sentiment heightened by COVID-19. Several policies were recommended by these communities, and the Canadian government responded in May 2021 by developing a definition of anti-Asian racism, which was added to Canada’s Anti-Racism Strategy (Government of Canada, 2023). 
+Amidst the rise in Asian hate in the month of March 2020, the Canadian government began more actively working with Asian communities to handle increased anti-Asian sentiment heightened by COVID-19. Several policies were recommended by these communities, and the Canadian government responded in May 2021 by developing a definition of anti-Asian racism, which was added to Canada’s Anti-Racism Strategy (@gov_canada_2023_multiculturalism). 
 
 The Canadian Race Relations Foundation (CRRF) and Public Safety Canada additionally organized several engagement initiatives and published statements for Asian communities, i.e. Asian and Sikh Heritage Month and The Bias, Sensitivity, Diversity and Identity Symposium on Islamophobia and Anti-Asian Hate. These efforts provided a platform for Asian Canadians to voice their experiences and challenges. Expert discussions further highlighted the impact of national security policies on Muslim and Asian communities amid rising hate crimes.
 
-The 2020 policy changes allowing international students to study online while preserving work permit eligibility helped mitigate disruptions but did not address the broader rise in anti-Asian racism (Government of Canada, 2020). Social media fueled this sentiment, leading to increased hate crimes against South Asian students in public and online spaces, especially in Toronto (The Link, 2022).
+The 2020 policy changes allowing international students to study online while preserving work permit eligibility helped mitigate disruptions but did not address the broader rise in anti-Asian racism (@gov_canada_2020_students). Social media fueled this sentiment, leading to increased hate crimes against South Asian students in public and online spaces, especially in Toronto (@the_link_2022).
 
 Despite these policy responses, Asian communities continue to face systemic discrimination. This paper examines hate crimes against Asian populations in Toronto from 2018 to 2023, with a focus on how socio-political developments, like the pandemic and policy shifts, have shaped these trends. While acknowledging broader racial disparities affecting Black communities, this paper narrows in on anti-Asian bias, aiming to inform more targeted interventions and support strategies for affected groups.
 
-The following structure of this paper is as follows: Section 2 presents the data sources and methodology, followed by Section 3, which discusses the results and their implications. Section 4 concludes with a discussion of the limitations of the study and suggestions for future research.
+The following structure of this paper is as follows: Section @sec-mydatasection presents the data sources and methodology, followed by Section 3, which discusses the results and their implications. Section 4 concludes with a discussion of the limitations of the study and suggestions for future research.
 
 # Data {#sec-mydatasection}
 
-
-
-The data used in this paper is sourced from the City of Toronto's Open Data Portal, accessed via the opendatatoronto package (Gelfand 2022). The dataset, Hate Crimes Open Data (City of Toronto 2024), includes verified hate crime occurrences reported to the Toronto Police since 2018. Analysis was conducted using R (R Core Team 2023), with key packages dplyr (Wickham et al. 2023), tibble (Müller et al. 2023), tidyverse (Wickam et al. 2019), and ggplot2 (Wickham 2016). Report generation was done with knitr (Xie 2023).
+The data used in this paper is sourced from the City of Toronto's Open Data Portal, accessed via the opendatatoronto package (@opendatatoronto). The dataset, Hate Crimes Open Data (@toronto_hatecrimes_2024), includes verified hate crime occurrences reported to the Toronto Police since 2018. Analysis was conducted using R (@r_core_team_2023), with key packages such as dplyr (@dplyr_2023), tibble (@tibble_2023), tidyverse (@tidyverse_welcome_2019), and ggplot2 (@ggplot2_wickham_2016). Report generation was done with knitr (@knitr_xie_2023).
 
 ## Hate Crime Data 
 
-Hate crime data provided by the City of Toronto’s Hate Crime Unit includes any reported hate crime occurrence beginning from January 2018. The features include identifiers like offence and report details (ID, year, date, time), police division and location, along with biases related to age, disability, race, ethnicity, language, religion, sexual orientation, and gender, as well as neighbourhood identifiers and whether an arrest was made. These biases are defined as “crimes committed on the basis of the Suspect’s perception of the Victim’s race”, (City of Toronto 2024).
+Hate crime data provided by the City of Toronto’s Hate Crime Unit includes any reported hate crime occurrence beginning from January 2018. The features include identifiers like offence and report details (ID, year, date, time), police division and location, along with biases related to age, disability, race, ethnicity, language, religion, sexual orientation, and gender, as well as neighbourhood identifiers and whether an arrest was made. These biases are defined as “crimes committed on the basis of the Suspect’s perception of the Victim’s race”, (@toronto_hatecrimes_2024).
 
 The set includes 1350 hate crimes from January 2018 to most recently, December 2023. It is annually refreshed, with the latest occurring on September 9th, 2024. As for quality, the data has an overall score of 96% grade of gold, and above 97% completeness, usability and freshness. The initial set of data included all races and mixes, with the column “Other race not mentioned” renamed to “Unknown” and all crimes not mainly associated with race bias removed– any row containing “None” under RACE_BIAS. 
 
@@ -132,13 +130,13 @@ ggplot(aggregated_data, aes(x = OCCURRENCE_YEAR, y = incident_count, fill = RACE
 
 ```
 
-## Summary Statistics: Asian and South Asian Communities
+## Summary Statistics: East/Southeast Asian and South Asian Communities
 
-@fig-Asian-Bias-Summary presents summary statistics for hate crimes specifically targeting Asian racial groups. fig-East-Asn-Summary and fig-South-Asn-Summary show the increase in the 2 major Asian race groups being East/Southeast Asians and South Asians, respectively. The data reveals a steady increase in incidents against South Asians from 2018 to 2023, with notable spikes in crimes against East As Asians in particular. The increase in Asian biased crimes also show an increase in different offences and location of offence occurrences. 
+@tbl-Asian-Bias-Summary presents summary statistics for hate crimes specifically targeting Asian racial groups. @tbl-East-Asn-Summary and @tbl-South-Asn-Summary show the increase in the 2 major Asian race groups being East/Southeast Asians and South Asians, respectively. The data reveals a steady increase in incidents against South Asians in 2021, with a notable spike in crimes against East Asians. The increase in Asian biased crimes also show an increase in different kinds of offences and location of hate crime occurrences. 
 
 ```{r}
-#| label: fig-Asian-Bias-Summary
-#| fig-cap: Summary of Asian Biased Hate Crimes in Toronto
+#| label: tbl-Asian-Bias-Summary
+#| table-cap: Summary of Asian Biased Hate Crimes in Toronto
 #| echo: false
 
 # Generate summary statistics for Asian bias data 
@@ -159,8 +157,8 @@ kable(summary, caption = "Summary of Asian Biased Hate Crimes in Toronto")
 
 
 ```{r}
-#| label: fig-East-Asn-Summary
-#| fig-cap: Summary of increase in hate crimes against East/Southeast Asians
+#| label: tbl-East-Asn-Summary
+#| table-cap: Summary of increase in hate crimes against East/Southeast Asians
 #| echo: false
 
 # Group by OCCURRENCE_YEAR and RACE_BIAS to summarize the counts
@@ -183,8 +181,8 @@ Easian_crimes %>%
 
 
 ```{r}
-#| label: fig-South-Asn-Summary
-#| fig-cap: Summary of increase in hate crimes against South Asians
+#| label: tbl-South-Asn-Summary
+#| table-cap: Summary of increase in hate crimes against South Asians
 #| echo: false
 
 # Group by OCCURRENCE_YEAR and RACE_BIAS to summarize the counts
@@ -204,6 +202,9 @@ Sasian_crimes %>%
   kable(caption = "Year-on-Year Increase in Hate Crimes Against South Asians")
 
 ```
+
+## Offence and location trends in Asian Biased Hate Crimes
+@fig-Asian-Offence-Types and @fig-Asian-Location-Types show spikes in assault and public based hate crimes in 2021 towards East/Southeast and South Asians, including racially mixed Asians. 
 
 
 ```{r}
@@ -254,11 +255,12 @@ ggplot(asian_location_data, aes(x = OCCURRENCE_YEAR, y = incident_count, fill = 
 
 # Discussion 
 
-Based on the above figures, there is evidence that
+Based on the above figures, there is evidence that the surge in hate crimes against East/Southeast and South Asians during 2021 correlates strongly with the social and political context surrounding the COVID-19 pandemic. Specifically a spike of over 1000% in hate crimes motivated by anti-East/Southeast Asian sentiment in @tbl-East-Asn-Summary. As the virus's origins were linked to Asia, widespread misinformation and xenophobia fueled anti-Asian sentiment. The sharp rise in hate crimes during this period is indicative of a broader global trend of increased racial targeting and discrimination, but concentrated within denser, diverse urban populations. While 2022 and 2023 saw a reduction in incidents, the numbers remain higher than pre-pandemic levels, suggesting that the effects of this wave of racism may have long-term impacts. Notably in @fig-Asian-Offence-Types and @fig-Asian-Location-Types, public settings such as businesses and streets became hotspots for these crimes, with assaults making up a significant portion of the incidents. In 2021, public assaults against Asians peaked and remained higher than pre-pandemic levels even into 2022 and 2023. While there was a reduction in incidents in these later years, the overall numbers still surpass those observed before the pandemic, suggesting long-lasting impacts of this wave of racism.
 
-The surge in hate crimes against East/Southeast Asians during 2020 and 2021 correlates strongly with the social and political context surrounding the COVID-19 pandemic. As the virus's origins were linked to Asia, widespread misinformation and xenophobia fueled anti-Asian sentiment. The sharp rise in hate crimes during this period is indicative of a broader global trend of increased racial targeting and discrimination. While 2022 and 2023 saw a reduction in incidents, the numbers remain higher than pre-pandemic levels, suggesting that the effects of this wave of racism may have long-term impacts.
-In contrast, the steady rise in hate crimes against South Asians points to a broader, underlying trend of racial bias that extends beyond the pandemic. Anti-immigrant sentiment, exacerbated by policies affecting international students and immigration more generally, likely played a role in these trends. Despite government interventions aimed at supporting immigrant communities during the pandemic (Government of Canada, 2020), the persistent hostility faced by South Asians reflects the ongoing challenges of systemic racism in Canadian society.
-Meanwhile, the consistent levels of anti-Black hate crimes highlight ongoing systemic racism. Although hate crimes against Asians have decreased since their peak, the persistence of incidents reflects the long-term impact of these biases, necessitating continued policy focus on combating racial discrimination.
+In contrast, the steady rise since 2021 in @tbl-South-Asn-Summary in hate crimes against South Asians points to a broader, underlying trend of racial bias that extends beyond the pandemic. Anti-immigrant sentiment, exacerbated by policies affecting international students and immigration more generally, likely played a role in these trends. Despite government interventions aimed at supporting immigrant communities during the pandemic (@gov_canada_2020_students), the persistent hostility faced by South Asians reflects the ongoing challenges of systemic racism in Canadian society.
+
+Meanwhile, the consistent levels of anti-Black hate crimes highlight ongoing systemic racism, highlighted in @fig-Race-Bias-Fig. Although hate crimes against Asians have decreased since their peak, the persistence of incidents reflects the long-term impact of these biases, necessitating continued policy focus on combating racial discrimination.
+
 Both the rise and persistence of these hate crimes underscore the importance of targeted policy responses. While public health measures and immigration policies were necessary during the pandemic, they were insufficient in addressing the racial tensions that surfaced. There is a clear need for long-term strategies aimed at combating racial bias and xenophobia, especially as it pertains to both East/Southeast and South Asian communities in Canada.
 
 
@@ -282,27 +284,3 @@ By addressing these limitations and building on the current analysis, future res
 
 
 # References
-
-City of Toronto. 2024. Hate Crimes Open Data. Published by Policy, Planning, Finance & Administration. Retrieved from https://www.toronto.ca/open-data-catalogue/hate-crimes-open-data. 
-
-Gelfand, Sharla. 2022. Opendatatoronto: Access the City of Toronto Open Data Portal. Retrieved from https://CRAN.R-project.org/package=opendatatoronto.
-
-Government of Canada. 2020. Measures to Support International Students During the COVID-19 Pandemic. Immigration, Refugees and Citizenship Canada. Retrieved from https://www.canada.ca/en/immigration-refugees-citizenship/services/coronavirus-covid19.html.
-
-Government of Canada. 2023. Annual Report on the Operation of the Canadian Multiculturalism Act 2021-2022. Retrieved from https://www.canada.ca/en/canadian-heritage/corporate/publications/plans-reports/annual-report-canadian-multiculturalism-act-2021-2022.html.
-
-Hadley Wickham, Lionel Henry, Romain François. 2023. Dplyr: A Grammar of Data Manipulation. Retrieved from https://CRAN.R-project.org/package=dplyr.
-
-Kirill Müller, Romain Francois, Hadley Wickham. 2023. Tibble: Simple Data Frames. Retrieved from https://CRAN.R-project.org/package=tibble.
-
-The Link. 2022. Canada Has a Rampant South Asian Racism Problem. The Link Newspaper. Retrieved from https://thelinknewspaper.ca/article/canada-has-a-rampant-south-asian-racism-problem.
-
-R Core Team. 2023. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from https://www.R-project.org/. 
-
-Wickham, Hadley. 2016. Ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. Retrieved from https://ggplot2.tidyverse.org.
-
-Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the Tidyverse.” Journal of Open Source Software 4 (43): 1686. Retrieved from https://doi.org/10.21105/joss.01686.
-
-Xie, Yihui. 2023. Knitr: A General-Purpose Package for Dynamic Report Generation in R. Retrieved from https://yihui.org/knitr/.
-
-
