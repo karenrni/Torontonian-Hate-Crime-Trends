@@ -48,11 +48,16 @@ The data used in this paper is sourced from the City of Toronto's Open Data Port
 
 ## Hate Crime Data 
 
-Hate crime data provided by the City of Toronto’s Hate Crime Unit includes any reported hate crime occurrence beginning from January 2018. The features include identifiers like offence and report details (ID, year, date, time), police division and location, along with biases related to age, disability, race, ethnicity, language, religion, sexual orientation, and gender, as well as neighbourhood identifiers and whether an arrest was made.
+Hate crime data provided by the City of Toronto’s Hate Crime Unit includes any reported hate crime occurrence beginning from January 2018. The features include identifiers like offence and report details (ID, year, date, time), police division and location, along with biases related to age, disability, race, ethnicity, language, religion, sexual orientation, and gender, as well as neighbourhood identifiers and whether an arrest was made. These biases are defined as “crimes committed on the basis of the Suspect’s perception of the Victim’s race”, (City of Toronto 2024).
 
-The set includes 1350 hate crimes from January 2018 to most recently, December 2023. It is annually refreshed, with the latest occurring on September 9th, 2024. As for quality, the data has an overall score of 96% grade of gold, and above 97% completeness, usability and freshness. 
+The set includes 1350 hate crimes from January 2018 to most recently, December 2023. It is annually refreshed, with the latest occurring on September 9th, 2024. As for quality, the data has an overall score of 96% grade of gold, and above 97% completeness, usability and freshness. The initial set of data included all races and mixes, with the column “Other race not mentioned” renamed to “Unknown” and all crimes not mainly associated with race bias removed– any row containing “None” under RACE_BIAS. 
 
+The columns included in the analysis are Primary Offences (Regrouped), Race Bias and Occurance Year. Due to the analysis’ focus on Asian Bias hate crimes, races of only East, Southeast and South Asian descent were included. Furthermore, primary offences were regrouped into more general overarching categories including, Assault-Related, Threats and Harassment, Mischief & Property Damage, Hate-Related and Others. Only the occurrence year was included as opposed to full dates, and reported dates were used to focus on high-level trends. Additionally, the dataset did not contain information on other socio-economic factors related to location, such as mean income levels and ethnic demographics, thus locations were excluded. Furthermore, location type was recategorized into more general categories including public, private, government, casual and other places. 
 
+# Results
+
+## Overview of Hate Crimes by Race
+We are primarily interested in hate crimes targeting Asian races, as this aligns with our focus on anti-Asian sentiment. However, it is also important to examine hate crimes across all racial categories to provide a comprehensive understanding of the trends. In @fig-Race-Bias-Fig, the graph hows a consistent increase in hate crimes targeting the Black community. Notably, hate crimes against Black individuals have been significantly higher than those targeting other racial groups throughout the observed period.
 
 ```{r}
 #| label: fig-Race-Bias-Fig
@@ -85,7 +90,9 @@ ggplot(top_per_year, aes(x = OCCURRENCE_YEAR, y = count, fill = RACE_BIAS)) +
 ```
 
 
-Seen via (@fig-Asian-Bias-Fig).
+## Hate Crimes Against Asian Communities
+
+@fig-Asian-Bias-Fig highlights the trend in hate crimes targeting all Asian racial groups, with a year-by-year breakdown. This visualization demonstrates a rise in hate crimes against Asian communities, especially during the years corresponding to the COVID-19 pandemic. Although the overall trend for Asian hate crimes has fluctuated, the data shows an alarming increase starting in 2020.
 
 
 ```{r}
@@ -125,6 +132,10 @@ ggplot(aggregated_data, aes(x = OCCURRENCE_YEAR, y = incident_count, fill = RACE
 
 ```
 
+## Summary Statistics: Asian and South Asian Communities
+
+@fig-Asian-Bias-Summary presents summary statistics for hate crimes specifically targeting Asian racial groups. fig-East-Asn-Summary and fig-South-Asn-Summary show the increase in the 2 major Asian race groups being East/Southeast Asians and South Asians, respectively. The data reveals a steady increase in incidents against South Asians from 2018 to 2023, with notable spikes in crimes against East As Asians in particular. The increase in Asian biased crimes also show an increase in different offences and location of offence occurrences. 
+
 ```{r}
 #| label: fig-Asian-Bias-Summary
 #| fig-cap: Summary of Asian Biased Hate Crimes in Toronto
@@ -146,6 +157,7 @@ kable(summary, caption = "Summary of Asian Biased Hate Crimes in Toronto")
 
 ```
 
+
 ```{r}
 #| label: fig-East-Asn-Summary
 #| fig-cap: Summary of increase in hate crimes against East/Southeast Asians
@@ -165,9 +177,10 @@ Easian_crimes <- Easian_crimes %>%
 
 # Display the result as a table
 Easian_crimes %>%
-  kable(caption = "Year-on-Year Increase in Hate Crimes Against Asians")
+  kable(caption = "Year-on-Year Increase in Hate Crimes Against East/ Southeast Asians")
 
 ```
+
 
 ```{r}
 #| label: fig-South-Asn-Summary
@@ -188,43 +201,82 @@ Sasian_crimes <- Sasian_crimes %>%
 
 # Display the result as a table
 Sasian_crimes %>%
-  kable(caption = "Year-on-Year Increase in Hate Crimes Against Asians")
+  kable(caption = "Year-on-Year Increase in Hate Crimes Against South Asians")
 
 ```
-### Raw Data
-source, structure,
-
-### Cleaned Data
-recategorization of variables.
-
-### Basic Summary Statistics of the Data
 
 
-### Discussion of Data Selection
-Discuss the rationale behind the selection of the data used for analysis and any criteria applied.
+```{r}
+#| label: fig-Asian-Offence-Types
+#| fig-cap: Type of Offences in Asian Biased Hate Crimes
+#| echo: false
 
-## Results
+# Group by OCCURRENCE_YEAR and OFFENCE_GROUP for Asian hate crimes
+asian_offense_data <- asian_data %>%
+  group_by(OCCURRENCE_YEAR, OFFENCE_GROUP) %>%
+  summarise(incident_count = n(), .groups = 'drop')
+
+# Plotting offense types
+ggplot(asian_offense_data, aes(x = OCCURRENCE_YEAR, y = incident_count, fill = OFFENCE_GROUP)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Type of Offences in Asian Biased Hate Crimes (2018-2023)",
+       x = "Year",
+       y = "Number of Incidents",
+       fill = "Offence Type") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.text = element_text(size = 7))
+```
 
 
-# Discussion
+```{r}
+#| label: fig-Asian-Location-Types
+#| fig-cap: Location Types in Asian Biased Hate Crimes
+#| echo: false
 
-## First discussion point {#sec-first-point}
+# Group by OCCURRENCE_YEAR and LOCATION_TYPE for Asian hate crimes
+asian_location_data <- asian_data %>%
+  group_by(OCCURRENCE_YEAR, LOCATION_GROUP) %>%
+  summarise(incident_count = n(), .groups = 'drop')
 
-## Second discussion point
+# Plotting location types
+ggplot(asian_location_data, aes(x = OCCURRENCE_YEAR, y = incident_count, fill = LOCATION_GROUP)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Location Types in Asian Biased Hate Crimes (2018-2023)",
+       x = "Year",
+       y = "Number of Incidents",
+       fill = "Location Type") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.text = element_text(size = 7))
 
-## Third discussion point
+```
+
+# Discussion 
+
+Based on the above figures, there is evidence that
+
+The surge in hate crimes against East/Southeast Asians during 2020 and 2021 correlates strongly with the social and political context surrounding the COVID-19 pandemic. As the virus's origins were linked to Asia, widespread misinformation and xenophobia fueled anti-Asian sentiment. The sharp rise in hate crimes during this period is indicative of a broader global trend of increased racial targeting and discrimination. While 2022 and 2023 saw a reduction in incidents, the numbers remain higher than pre-pandemic levels, suggesting that the effects of this wave of racism may have long-term impacts.
+In contrast, the steady rise in hate crimes against South Asians points to a broader, underlying trend of racial bias that extends beyond the pandemic. Anti-immigrant sentiment, exacerbated by policies affecting international students and immigration more generally, likely played a role in these trends. Despite government interventions aimed at supporting immigrant communities during the pandemic (Government of Canada, 2020), the persistent hostility faced by South Asians reflects the ongoing challenges of systemic racism in Canadian society.
+Meanwhile, the consistent levels of anti-Black hate crimes highlight ongoing systemic racism. Although hate crimes against Asians have decreased since their peak, the persistence of incidents reflects the long-term impact of these biases, necessitating continued policy focus on combating racial discrimination.
+Both the rise and persistence of these hate crimes underscore the importance of targeted policy responses. While public health measures and immigration policies were necessary during the pandemic, they were insufficient in addressing the racial tensions that surfaced. There is a clear need for long-term strategies aimed at combating racial bias and xenophobia, especially as it pertains to both East/Southeast and South Asian communities in Canada.
+
 
 # Limitations and Next Steps
 
-- accuracy and reliability of reports
-- dataset includes only all verified Hate Crime occurrences investigated by the Hate Crime Unit by 
-- only those confirmed and reported (date since 2018) 
-- does not include occurrences that have been deemed unfounded or classified as hate incidents
-- includes interaction between multi-biased hate crimes, where motivation lacks clarity 
-  - i.e. Age, Mental or Physical Disability, Race, Ethnicity, Language, Religion, Sexual Orientation, Gender and Other Similar Factor
-- should contine to analyse with multi level bias crimes in mind
-- data is provided at the offence and/or occurrence level-- one occurrence may have multi-bias categories associated to the victim used to categorize the hate crime
-- may overlook qualitative aspects of hate crimes, such as the socio-cultural context of incidents
+There are several limitations to this analysis that should be considered when interpreting the results. The accuracy and reliability of reports may be affected by underreporting or misclassification, as the dataset includes only reported and verified hate crimes by the Hate crime Unit. Many incidents may go unreported or are excluded occurrences classified as unfounded or those identified as hate incidents. As a result, the data may not fully reflect the actual or full range of hate crimes occurring in the GTA community. The limited focus may omit significant portions of incidents not classified as hate crimes which still reflect underlying societal tensions.
+
+Some incidents in involve multi-bias hate crimes, where multiple motivations such as race, age, disability, and religion can overlap. This can make it difficult to isolate patterns of specific bias categories, as one crime may reflect more than one motivation. Understanding the full nature of these crimes becomes more complex when multiple biases are at play. 
+
+The dataset lacks important qualitative insights into the socio-cultural context of hate crimes. Factors such as mean area income, community dynamics, media influence, and social tensions that may drive hate crimes are not reflected in the dataset, which limits a full understanding of the underlying causes and conditions of these incidents.
+
+In future research, there should be continued focus on multi-bias hate crimes in greater detail, perhaps disaggregating incidents with multiple biases to better understand intersections between race and other categories like age and religion. This will help clarify how different forms of discrimination intersect in hate crime occurrences. Additionally, it would be beneficial to incorporate qualitative data into future studies. Interviews with victims, community feedback, and analysis of media or social media trends could provide richer insights into the social and cultural factors that drive hate crimes. It may also be valuable to collaborate with community organizations to gather additional data on underreported hate crimes. Partnering with other groups, especially Asian based communities, may help fill gaps in official reports and ensure that marginalized voices are included.
+
+Quantitative additions regarding income levels may also help in understanding the effects of major socio-economic factors on hate crime. Expanding the dataset to include a longer time frame beyond 2018 and considering incidents classified as hate-related but not fully investigated as hate crimes could provide a broader perspective on trends over time. Such an expansion would allow for more comprehensive insights into the long-term patterns of hate incidents in Toronto. 
+
+Furthermore, continued exploration of offense and location trends can be vital Analyzing the types of offenses and the locations where hate crimes against specific groups, particularly Black, East/Southeast Asians and South Asians, occur can help identify hotspots and recurring incidents. This information could be used to inform targeted interventions and policy efforts aimed at reducing hate crime occurrences in these areas.
+
+By addressing these limitations and building on the current analysis, future research can provide a deeper and more complex understanding of hate crimes and motivations in Toronto and support more effective strategies for combating them.
 
 \newpage
 
@@ -245,7 +297,7 @@ Kirill Müller, Romain Francois, Hadley Wickham. 2023. Tibble: Simple Data Frame
 
 The Link. 2022. Canada Has a Rampant South Asian Racism Problem. The Link Newspaper. Retrieved from https://thelinknewspaper.ca/article/canada-has-a-rampant-south-asian-racism-problem.
 
-R Core Team. 2023. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from https://www.R-project.org/.
+R Core Team. 2023. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from https://www.R-project.org/. 
 
 Wickham, Hadley. 2016. Ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York. Retrieved from https://ggplot2.tidyverse.org.
 

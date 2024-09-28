@@ -41,5 +41,20 @@ cleaned_data <- raw_data %>%
 cleaned_data <- cleaned_data %>%
   filter(RACE_BIAS != "None")
 
+# Regroup location type to more general categories
+cleaned_data <- cleaned_data %>%
+  mutate(LOCATION_GROUP = case_when(
+    LOCATION_TYPE %in% c("Public Transportation", "Open Area, Park or Parking Lot", "Streets/Roadways/Highway", 
+                         "Business/Retail", "Educational Institution (Universities, Colleges, Schools, etc.)",
+                         "Religious Place of Worship/Cultural Centre") ~ "Public",
+    LOCATION_TYPE %in% c("House (Townhouse, Retirement Home, Garage, Vehicle, Cottage)", 
+                         "Apartment Building (Condo, Retirement Buidling, etc.)") ~ "Private",
+    LOCATION_TYPE %in% c("Government Building (Courthouse, Museums, Parliament Building, etc.)", 
+                         "Government Building") ~ "Government",
+    LOCATION_TYPE %in% c("Other Commercial / Corporate Places", "Non-Commercial/Non for Profit", 
+                         "Medical Facility (Hospitals, Long-term Care, etc.)") ~ "Corporate",
+    TRUE ~ "Other"  # Catch any NA or other values
+  ))
+
 #### Save data ####
 write_csv(cleaned_data, "data/analysis_data/analysis_data.csv")
