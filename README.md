@@ -1,5 +1,5 @@
 # Overview
-An analysis in R on recent hate crimes motivated by race bias towards East, Southeast, and South Asians in Toronto via https://open.toronto.ca/dataset/hate-crimes-open-data/ from 2018 until most recently, 2024. 
+An analysis in R on recent hate crimes motivated by COVID-19 and policies stemming from it, leading to the race bias towards East, Southeast, and South Asians in Toronto via https://open.toronto.ca/dataset/hate-crimes-open-data/ from 2018 until most recently, 2023. 
 
 # File Structure
 
