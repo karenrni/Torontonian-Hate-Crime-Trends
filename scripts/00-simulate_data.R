@@ -23,5 +23,18 @@ simulated_data <- tibble(
   OFFENCE_GROUP = sample(cleaned_data$OFFENCE_GROUP, number_of_records, replace = TRUE)
 )
 
+## Tests ##
+
+# Check OCCURRENCE_YEAR range
+range(simulated_data$OCCURRENCE_YEAR)
+
+# Check duplicate rows
+sum(duplicated(simulated_data))
+
+# Check unique occurrences for RACE_BIAS, LOCATION_GROUP, and OFFENCE_GROUP for distribution
+table(simulated_data$RACE_BIAS)
+table(simulated_data$LOCATION_GROUP)
+table(simulated_data$OFFENCE_GROUP)
+
 #### Write_csv
 write_csv(data, file = "data/raw_data/simulated.csv")
