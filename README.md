@@ -1,4 +1,4 @@
-# Overview
+# Overview.. there is an issue in my git push! Desperately still working on it currently the data is complete 
 An analysis on recent hate crimes in Toronto via https://open.toronto.ca/dataset/hate-crimes-open-data/ from 2018 until most recently, 2024. 
 
 # File Structure
